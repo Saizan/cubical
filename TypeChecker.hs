@@ -205,8 +205,10 @@ check a t = case (a,t) of
     v <- checkInfer t
     k <- getIndex
     b <- conv k v a
-    unless b $
-      throwError $ "check conv: " ++ show v ++ " /= " ++ show a
+    unless b $ do
+      env <- getEnv
+      ctxt <- getCtxt
+      throwError $ "check conv: " ++ show v ++ " /= " ++ show a ++ "\n in " ++ show env 
 
 checkBranch :: (Tele,Env) -> Val -> Brc -> Typing ()
 checkBranch (xas,nu) f (c,(xs,e)) = do

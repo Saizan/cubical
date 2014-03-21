@@ -153,7 +153,7 @@ data PN = Id | Refl
 
         -- undefined constant
         | Undef Prim
-  deriving (Eq, Show)
+  deriving (Eq,Show)
 
 -- For an expression t, returns (u,ts) where u is no application
 -- and t = u ts
@@ -439,7 +439,7 @@ data Val = VU
          | VComN Val (Box Val)
          | VFst Val
          | VSnd Val
-  deriving Eq
+  deriving (Eq)
 
 vepair :: Name -> Val -> Val -> Val
 vepair x a b = VSPair a (Path x b)
@@ -593,9 +593,9 @@ data Env = Empty
 instance Show Env where
   show Empty            = ""
   show (PDef xas env)   = show env
-  show (Pair env (x,u)) = parens $ showEnv1 env ++ show u
+  show (Pair env (x,u)) = parens $ showEnv1 env ++ show u ++ "/" ++ x
     where
-      showEnv1 (Pair env (x,u)) = showEnv1 env ++ show u ++ ", "
+      showEnv1 (Pair env (x,u)) = showEnv1 env ++ show u ++ "/" ++ x ++ ", "
       showEnv1 e                = show e
 
 instance Nominal Env where
@@ -672,7 +672,7 @@ instance Show Val where
 
 showVal :: Val -> String
 showVal VU               = "U"
-showVal (Ter t env)      = show t <+> show env
+showVal (Ter t env)      = show t <+> "[" <+> show env <+> "]"
 showVal (VId a u v)      = "Id" <+> showVal1 a <+> showVal1 u <+> showVal1 v
 showVal (Path n u)       = abrack (show n) <+> showVal u
 showVal (VExt n b f g p) = "funExt" <+> show n <+> showVals [b,f,g,p]

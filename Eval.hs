@@ -173,7 +173,7 @@ evalPN :: [Name] -> PN -> [Val] -> Eval Val
 evalPN (x:_) Id            [a,a0,a1]     = return $ VId (Path x a) a0 a1
 evalPN (x:_) IdP           [_,_,p,a0,a1] = return $ VId p a0 a1
 evalPN (x:_) Refl          [_,a]         = return $ Path x a
-evalPN (x:_) TransU        [_,_,p,t]     =
+evalPN (x:_) TransU        [_,_,p,t]     = trace ("TransU: " ++ show p) $
   comM (appName p x) (return (Box up x t []))
 evalPN (x:_) TransInvU     [_,_,p,t]     =
   comM (appName p x) (return (Box down x t []))

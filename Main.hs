@@ -148,7 +148,8 @@ loop f cs tenv@(TC.TEnv _ rho _ _ debug) = do
           case x of
             Left err -> do outputStrLn ("Could not type-check: " ++ err)
                            loop f cs tenv
-            Right _  -> do
+            Right ty -> do
+              outputStrLn ("TYPE: " ++ show ty)
               let e = E.evalTer debug rho body
               outputStrLn ("EVAL: " ++ show e)
               loop f cs tenv
